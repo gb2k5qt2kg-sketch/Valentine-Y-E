@@ -12,13 +12,23 @@
 
       <h2>Emma, j’ai une question pour toi 💘</h2>
 
-     <p>Mets le son si tu peux 🎶</p>
-<p>
-  <a href="https://open.spotify.com/search/Die%20For%20You%20The%20Weeknd" target="_blank">
-    Ouvrir la musique
-  </a>
-</p>
-  
+      <div id="ytBox" style="display:none; margin-top:18px;">
+        <p>Avant de répondre, écoute ça si tu peux 🎶</p>
+
+        <iframe id="ytFrame"
+          width="360"
+          height="215"
+          src=""
+          title="Die For You"
+          frameborder="0"
+          allow="autoplay; encrypted-media; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+
+        <div style="margin-top:10px;">
+          <button onclick="unmuteYT()">Activer le son</button>
+        </div>
+      </div>
 
       <br><br>
 
@@ -49,8 +59,23 @@ function moveNo() {
 }
 
 function start() {
+  const box = document.getElementById("ytBox")
+  const frame = document.getElementById("ytFrame")
+
+  box.style.display = "block"
+
+  // Die For You official audio ID
+  // autoplay, mute pour maximiser le démarrage automatique
+  frame.src = "https://www.youtube.com/embed/Qx7g3wE0b5U?autoplay=1&mute=1"
+
   step = 1
   render()
+}
+
+// Si iPhone bloque le son, ce bouton recharge la vidéo avec son
+function unmuteYT() {
+  const frame = document.getElementById("ytFrame")
+  frame.src = "https://www.youtube.com/embed/Qx7g3wE0b5U?autoplay=1"
 }
 
 function pickDay(v) {

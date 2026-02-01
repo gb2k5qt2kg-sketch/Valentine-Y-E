@@ -6,142 +6,169 @@
   <title>14 février 💖</title>
 
   <style>
-    body { background:#ffe6ee; font-family: Arial, sans-serif; text-align:center; margin:0 }
-    .wrap { max-width:980px; margin:0 auto; padding:28px 16px 60px }
-    .sub { opacity:.85; margin-top:8px }
-    .btn { padding:10px 18px; border-radius:999px; border:0; cursor:pointer; font-weight:700; margin:6px; box-shadow:0 6px 16px rgba(0,0,0,.12) }
-    .yes { background:#ff4f8b; color:#fff }
-    .grid { display:grid; grid-template-columns:repeat(4, 1fr); gap:14px; margin-top:16px }
-    @media (max-width:860px) { .grid { grid-template-columns:repeat(2, 1fr) } }
-    .card { background:#fff; border-radius:18px; padding:10px; cursor:pointer; box-shadow:0 10px 24px rgba(0,0,0,.10) }
-    .thumb { width:100%; height:130px; object-fit:cover; border-radius:14px; display:block; background:#f3f3f3 }
-    .label { margin-top:10px; font-weight:800; color:#1b7bbf }
-    .ytBox { display:none; max-width:760px; margin:18px auto 10px }
-    .ytFrame { width:100%; aspect-ratio:16/9; border:0; border-radius:18px; background:#000; box-shadow:0 10px 28px rgba(0,0,0,.12) }
+    body { background:#ffe6ee; font-family:Arial, sans-serif; margin:0; padding:0 }
+    .wrap { max-width:980px; margin:0 auto; padding:28px 16px 50px }
+    h2 { margin:10px 0 8px }
+    h3 { margin:14px 0 10px }
+    .sub { opacity:.85; margin-top:6px }
+    .btn { padding:10px 18px; border:0; border-radius:999px; background:#ffffff; cursor:pointer; font-weight:700 }
+    .btn.yes { background:#ff4f8b; color:#fff }
+    .btn.ghost { background:#f2f2f2 }
+    .row { margin-top:14px }
+    .ytBox { display:none; margin:18px auto 0; max-width:720px }
+    .ytWrap { width:100%; aspect-ratio:16/9; border-radius:18px; overflow:hidden; background:#000 }
+    .ytWrap iframe { width:100%; height:100%; border:0 }
+    .grid { display:grid; grid-template-columns:repeat(4, 1fr); gap:14px; margin-top:14px }
+    .card { background:#fff; border:0; border-radius:18px; overflow:hidden; cursor:pointer; box-shadow:0 10px 30px rgba(0,0,0,.08) }
+    .thumb { width:100%; height:140px; object-fit:cover; display:block }
+    .label { padding:10px 12px; font-weight:800; color:#2b6cb0 }
     #noBtn { position:relative }
+    #result { margin-top:18px }
+    @media (max-width:860px) { .grid { grid-template-columns:repeat(2, 1fr) } .thumb { height:150px } }
   </style>
 </head>
 
 <body>
-  <div class="wrap">
+  <div class="wrap" align="center">
+
     <h2>Emma, j’ai une question pour toi 💘</h2>
 
     <div id="ytBox" class="ytBox">
-      <div class="sub">Avant de répondre, écoute ça si tu peux 🎶</div>
-      <iframe
-        id="ytFrame"
-        class="ytFrame"
-        src=""
-        title="Die For You"
-        allow="autoplay; encrypted-media; picture-in-picture"
-        allowfullscreen>
-      </iframe>
+      <div class="sub">Si ça reste en muet, touche Activer le son</div>
 
-      <div style="margin-top:10px">
-        <button class="btn" onclick="activateSound()">Activer le son</button>
+      <div class="ytWrap">
+        <iframe
+          id="ytFrame"
+          src=""
+          title="Die For You"
+          allow="autoplay; encrypted-media; picture-in-picture"
+          allowfullscreen
+        ></iframe>
       </div>
 
-      <div class="sub">Si ça reste en muet touche Activer le son c’est normal</div>
+      <div class="row">
+        <button class="btn" onclick="unmute()">Activer le son</button>
+        <a id="ytLink" href="https://www.youtube.com/watch?v=YQ-qToZUybM" target="_blank" rel="noopener">
+          <button class="btn ghost" type="button">Ouvrir sur YouTube</button>
+        </a>
+      </div>
     </div>
 
-    <div id="app" style="margin-top:18px">
+    <div class="row" id="app">
       <h3>Veux tu être ma Valentine 💖</h3>
       <button class="btn yes" onclick="start()">Oui</button>
-      <button class="btn" id="noBtn" onmouseover="moveNo()">Non</button>
+      <button class="btn ghost" id="noBtn" onmouseover="moveNo()">Non</button>
     </div>
 
     <div id="result"></div>
+
   </div>
 
 <script>
-let step = 0
-let chosenDay = ""
-let chosenFood = ""
+  let step = 0
+  let chosenDay = ""
+  let chosenFood = ""
 
-function moveNo() {
-  const btn = document.getElementById("noBtn")
-  const x = Math.random() * (window.innerWidth - 140)
-  const y = Math.random() * (window.innerHeight - 80)
-  btn.style.position = "absolute"
-  btn.style.left = x + "px"
-  btn.style.top = y + "px"
-}
+  const ytId = "YQ-qToZUybM"
 
-function start() {
-  const ytBox = document.getElementById("ytBox")
-  const ytFrame = document.getElementById("ytFrame")
-
-  ytBox.style.display = "block"
-
-  ytFrame.src = "https://www.youtube.com/embed/YQ-qToZUybM?autoplay=1&mute=1&rel=0&controls=1"
-
-  step = 1
-  render()
-  window.scrollTo({ top: 0, behavior: "smooth" })
-}
-
-function activateSound() {
-  const ytFrame = document.getElementById("ytFrame")
-  ytFrame.src = "https://www.youtube.com/embed/YQ-qToZUybM?autoplay=1&mute=0&rel=0&controls=1"
-}
-
-function pickDay(v) {
-  chosenDay = v
-  step = 2
-  render()
-}
-
-function pickFood(v) {
-  chosenFood = v
-  step = 3
-  render()
-}
-
-function card(label, imgSrc, onClickJs) {
-  return `
-    <div class="card" onclick="${onClickJs}">
-      <img class="thumb" src="${imgSrc}" alt="">
-      <div class="label">${label}</div>
-    </div>
-  `
-}
-
-function render() {
-  const result = document.getElementById("result")
-
-  if (step === 1) {
-    result.innerHTML = `
-      <h3>Le 14 février, tu as envie de quoi la journée 💞</h3>
-      <div class="grid">
-        ${card("Parc", "images/parc.jpg", "pickDay('Parc')")}
-        ${card("Cinéma", "images/cinema.jpg", "pickDay('Cinéma')")}
-        ${card("Musée", "images/musee.jpg", "pickDay('Musée')")}
-        ${card("Outer Banks", "images/netflix.jpg", "pickDay('Outer Banks')")}
-      </div>
-    `
+  function ytSrc(mute) {
+    return "https://www.youtube.com/embed/" + ytId + "?autoplay=1&mute=" + (mute ? "1" : "0") + "&playsinline=1&rel=0"
   }
 
-  if (step === 2) {
-    result.innerHTML = `
-      <h3>Et le soir au resto 💖</h3>
-      <div class="sub">Tu veux manger quoi</div>
-      <div class="grid" style="grid-template-columns:repeat(2, 1fr); max-width:520px; margin-left:auto; margin-right:auto">
-        ${card("Frites", "images/frites.jpg", "pickFood('Frites')")}
-        ${card("Pâtes", "images/pates.jpg", "pickFood('Pâtes')")}
-      </div>
-    `
+  function moveNo() {
+    const btn = document.getElementById("noBtn")
+    const x = Math.random() * (window.innerWidth - 140)
+    const y = Math.random() * (window.innerHeight - 80)
+    btn.style.position = "absolute"
+    btn.style.left = x + "px"
+    btn.style.top = y + "px"
   }
 
-  if (step === 3) {
-    result.innerHTML = `
-      <h2>Parfait 💘</h2>
-      <p><b>Journée</b> ${chosenDay}</p>
-      <p><b>Soir</b> resto</p>
-      <p><b>Manger</b> ${chosenFood}</p>
-      <p><b>Je t’aime</b> ❤️</p>
-    `
+  function start() {
+    const ytBox = document.getElementById("ytBox")
+    const ytFrame = document.getElementById("ytFrame")
+
+    ytBox.style.display = "block"
+    ytFrame.src = ytSrc(true)
+
+    step = 1
+    render()
   }
-}
+
+  function unmute() {
+    const ytFrame = document.getElementById("ytFrame")
+    ytFrame.src = ytSrc(false)
+  }
+
+  function pickDay(v) {
+    chosenDay = v
+    step = 2
+    render()
+  }
+
+  function pickFood(v) {
+    chosenFood = v
+    step = 3
+    render()
+  }
+
+  function render() {
+    const app = document.getElementById("app")
+    const result = document.getElementById("result")
+
+    if (step === 1) {
+      app.innerHTML = ""
+      result.innerHTML =
+        "<h3>Le 14 février, tu as envie de quoi la journée 💞</h3>" +
+        "<div class='grid'>" +
+          "<button class='card' onclick=\"pickDay('Parc')\">" +
+            "<img class='thumb' src='IMG_2029.png' alt='Parc'>" +
+            "<div class='label'>Parc</div>" +
+          "</button>" +
+
+          "<button class='card' onclick=\"pickDay('Cinéma')\">" +
+            "<img class='thumb' src='IMG_2030.webp' alt='Cinéma'>" +
+            "<div class='label'>Cinéma</div>" +
+          "</button>" +
+
+          "<button class='card' onclick=\"pickDay('Musée')\">" +
+            "<img class='thumb' src='IMG_2031.webp' alt='Musée'>" +
+            "<div class='label'>Musée</div>" +
+          "</button>" +
+
+          "<button class='card' onclick=\"pickDay('Outer Banks')\">" +
+            "<img class='thumb' src='IMG_2032.webp' alt='Outer Banks'>" +
+            "<div class='label'>Outer Banks</div>" +
+          "</button>" +
+        "</div>"
+      return
+    }
+
+    if (step === 2) {
+      result.innerHTML =
+        "<h3>Et le soir, tu préfères quoi au resto 💞</h3>" +
+        "<div class='grid' style='grid-template-columns:repeat(2, 1fr)'>" +
+          "<button class='card' onclick=\"pickFood('Frites')\">" +
+            "<img class='thumb' src='IMG_2033.jpeg' alt='Frites'>" +
+            "<div class='label'>Frites</div>" +
+          "</button>" +
+
+          "<button class='card' onclick=\"pickFood('Pâtes')\">" +
+            "<img class='thumb' src='IMG_2034.jpeg' alt='Pâtes'>" +
+            "<div class='label'>Pâtes</div>" +
+          "</button>" +
+        "</div>"
+      return
+    }
+
+    if (step === 3) {
+      result.innerHTML =
+        "<h2>Parfait 💘</h2>" +
+        "<p>Journée " + chosenDay + "</p>" +
+        "<p>Resto " + chosenFood + "</p>" +
+        "<p>Je t’aime ❤️</p>"
+    }
+  }
 </script>
 
 </body>

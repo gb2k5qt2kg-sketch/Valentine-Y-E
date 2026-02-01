@@ -2,69 +2,56 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>14 février 💖</title>
 
   <style>
-    body {
-      background: #ffe6ee;
-      font-family: Arial, sans-serif;
-      text-align: center;
-    }
-
-    .cards {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 20px;
-      flex-wrap: wrap;
-    }
-
-    .card {
-      background: white;
-      border-radius: 16px;
-      padding: 10px;
-      width: 180px;
-      cursor: pointer;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-      transition: transform 0.2s;
-    }
-
-    .card:hover {
-      transform: scale(1.05);
-    }
-
-    .card img {
-      width: 100%;
-      height: 120px;
-      object-fit: cover;
-      border-radius: 12px;
-    }
-
-    button {
-      padding: 10px 20px;
-      border-radius: 20px;
-      border: none;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    #noBtn {
-      position: relative;
-    }
+    body { background:#ffe6ee; font-family: Arial, sans-serif; text-align:center; margin:0 }
+    .wrap { max-width:980px; margin:0 auto; padding:28px 16px 60px }
+    .sub { opacity:.85; margin-top:8px }
+    .btn { padding:10px 18px; border-radius:999px; border:0; cursor:pointer; font-weight:700; margin:6px; box-shadow:0 6px 16px rgba(0,0,0,.12) }
+    .yes { background:#ff4f8b; color:#fff }
+    .grid { display:grid; grid-template-columns:repeat(4, 1fr); gap:14px; margin-top:16px }
+    @media (max-width:860px) { .grid { grid-template-columns:repeat(2, 1fr) } }
+    .card { background:#fff; border-radius:18px; padding:10px; cursor:pointer; box-shadow:0 10px 24px rgba(0,0,0,.10) }
+    .thumb { width:100%; height:130px; object-fit:cover; border-radius:14px; display:block; background:#f3f3f3 }
+    .label { margin-top:10px; font-weight:800; color:#1b7bbf }
+    .ytBox { display:none; max-width:760px; margin:18px auto 10px }
+    .ytFrame { width:100%; aspect-ratio:16/9; border:0; border-radius:18px; background:#000; box-shadow:0 10px 28px rgba(0,0,0,.12) }
+    #noBtn { position:relative }
   </style>
 </head>
 
 <body>
+  <div class="wrap">
+    <h2>Emma, j’ai une question pour toi 💘</h2>
 
-<h2>Emma, j’ai une question pour toi 💘</h2>
+    <div id="ytBox" class="ytBox">
+      <div class="sub">Avant de répondre, écoute ça si tu peux 🎶</div>
+      <iframe
+        id="ytFrame"
+        class="ytFrame"
+        src=""
+        title="Die For You"
+        allow="autoplay; encrypted-media; picture-in-picture"
+        allowfullscreen>
+      </iframe>
 
-<div id="app">
-  <h3>Veux tu être ma Valentine 💖</h3>
-  <button onclick="start()">Oui</button>
-  <button id="noBtn" onmouseover="moveNo()">Non</button>
-</div>
+      <div style="margin-top:10px">
+        <button class="btn" onclick="activateSound()">Activer le son</button>
+      </div>
 
-<div id="result"></div>
+      <div class="sub">Si ça reste en muet touche Activer le son c’est normal</div>
+    </div>
+
+    <div id="app" style="margin-top:18px">
+      <h3>Veux tu être ma Valentine 💖</h3>
+      <button class="btn yes" onclick="start()">Oui</button>
+      <button class="btn" id="noBtn" onmouseover="moveNo()">Non</button>
+    </div>
+
+    <div id="result"></div>
+  </div>
 
 <script>
 let step = 0
@@ -73,14 +60,29 @@ let chosenFood = ""
 
 function moveNo() {
   const btn = document.getElementById("noBtn")
+  const x = Math.random() * (window.innerWidth - 140)
+  const y = Math.random() * (window.innerHeight - 80)
   btn.style.position = "absolute"
-  btn.style.left = Math.random() * (window.innerWidth - 100) + "px"
-  btn.style.top = Math.random() * (window.innerHeight - 50) + "px"
+  btn.style.left = x + "px"
+  btn.style.top = y + "px"
 }
 
 function start() {
+  const ytBox = document.getElementById("ytBox")
+  const ytFrame = document.getElementById("ytFrame")
+
+  ytBox.style.display = "block"
+
+  ytFrame.src = "https://www.youtube.com/embed/YQ-qToZUybM?autoplay=1&mute=1&rel=0&controls=1"
+
   step = 1
   render()
+  window.scrollTo({ top: 0, behavior: "smooth" })
+}
+
+function activateSound() {
+  const ytFrame = document.getElementById("ytFrame")
+  ytFrame.src = "https://www.youtube.com/embed/YQ-qToZUybM?autoplay=1&mute=0&rel=0&controls=1"
 }
 
 function pickDay(v) {
@@ -95,48 +97,37 @@ function pickFood(v) {
   render()
 }
 
-function render() {
-  const app = document.getElementById("app")
-  const result = document.getElementById("result")
+function card(label, imgSrc, onClickJs) {
+  return `
+    <div class="card" onclick="${onClickJs}">
+      <img class="thumb" src="${imgSrc}" alt="">
+      <div class="label">${label}</div>
+    </div>
+  `
+}
 
-  app.innerHTML = ""
+function render() {
+  const result = document.getElementById("result")
 
   if (step === 1) {
     result.innerHTML = `
-      <h3>Le 14 février, tu as envie de quoi la journée 💕</h3>
-      <div class="cards">
-        <div class="card" onclick="pickDay('Parc')">
-          <img src="images/parc.jpg">
-          <p>Parc</p>
-        </div>
-        <div class="card" onclick="pickDay('Cinéma')">
-          <img src="images/cinema.jpg">
-          <p>Cinéma</p>
-        </div>
-        <div class="card" onclick="pickDay('Musée')">
-          <img src="images/musee.jpg">
-          <p>Musée</p>
-        </div>
-        <div class="card" onclick="pickDay('Netflix')">
-          <img src="images/netflix.jpg">
-          <p>Netflix</p>
-        </div>
+      <h3>Le 14 février, tu as envie de quoi la journée 💞</h3>
+      <div class="grid">
+        ${card("Parc", "images/parc.jpg", "pickDay('Parc')")}
+        ${card("Cinéma", "images/cinema.jpg", "pickDay('Cinéma')")}
+        ${card("Musée", "images/musee.jpg", "pickDay('Musée')")}
+        ${card("Outer Banks", "images/netflix.jpg", "pickDay('Outer Banks')")}
       </div>
     `
   }
 
   if (step === 2) {
     result.innerHTML = `
-      <h3>Et pour manger au resto 💖</h3>
-      <div class="cards">
-        <div class="card" onclick="pickFood('Frites')">
-          <img src="images/frites.jpg">
-          <p>Frites</p>
-        </div>
-        <div class="card" onclick="pickFood('Pâtes')">
-          <img src="images/pates.jpg">
-          <p>Pâtes</p>
-        </div>
+      <h3>Et le soir au resto 💖</h3>
+      <div class="sub">Tu veux manger quoi</div>
+      <div class="grid" style="grid-template-columns:repeat(2, 1fr); max-width:520px; margin-left:auto; margin-right:auto">
+        ${card("Frites", "images/frites.jpg", "pickFood('Frites')")}
+        ${card("Pâtes", "images/pates.jpg", "pickFood('Pâtes')")}
       </div>
     `
   }
@@ -144,9 +135,10 @@ function render() {
   if (step === 3) {
     result.innerHTML = `
       <h2>Parfait 💘</h2>
-      <p>Journée : ${chosenDay}</p>
-      <p>Repas : ${chosenFood}</p>
-      <p>Je t’aime ❤️</p>
+      <p><b>Journée</b> ${chosenDay}</p>
+      <p><b>Soir</b> resto</p>
+      <p><b>Manger</b> ${chosenFood}</p>
+      <p><b>Je t’aime</b> ❤️</p>
     `
   }
 }

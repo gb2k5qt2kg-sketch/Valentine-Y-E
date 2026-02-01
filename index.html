@@ -2,57 +2,132 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>14 février 💖</title>
+  <style>
+    body {
+      background: #ffe6ee;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 28px 16px 60px 16px;
+      text-align: center;
+    }
+    h2 { margin: 18px 0 10px 0; }
+    h3 { margin: 18px 0 12px 0; font-weight: 700; }
+    .sub { margin: 6px 0 16px 0; opacity: 0.85; }
+    .cardRow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: center;
+      margin-top: 10px;
+    }
+    .cardBtn {
+      width: 180px;
+      border: 0;
+      border-radius: 18px;
+      background: white;
+      padding: 10px;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+      transition: transform 0.08s ease;
+    }
+    .cardBtn:hover { transform: translateY(-2px); }
+    .cardBtn img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 14px;
+      display: block;
+    }
+    .cardTitle {
+      margin-top: 10px;
+      font-weight: 700;
+    }
+    .smallBtn {
+      border: 0;
+      border-radius: 999px;
+      padding: 10px 14px;
+      cursor: pointer;
+      background: #ffffff;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+    }
+    .smallBtnPink {
+      background: #ff3f86;
+      color: white;
+    }
+    #noBtn {
+      position: relative;
+      margin-left: 10px;
+    }
+    #ytBox {
+      display: none;
+      margin: 18px auto 10px auto;
+      max-width: 560px;
+    }
+    iframe {
+      width: 100%;
+      max-width: 560px;
+      height: 315px;
+      border-radius: 16px;
+      background: #000;
+    }
+    .finalBox {
+      background: rgba(255,255,255,0.85);
+      border-radius: 18px;
+      padding: 18px 14px;
+      display: inline-block;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+      margin-top: 12px;
+    }
+  </style>
 </head>
 
-<body bgcolor="#ffe6ee">
-  <center>
-    <br>
-    <font face="Arial">
+<body>
+  <div class="wrap">
 
-      <h2>Emma, j’ai une question pour toi 💘</h2>
+    <h2>Emma, j’ai une question pour toi 💘</h2>
 
-      <div id="ytBox" style="display:none; margin-top:18px;">
-        <p>Avant de répondre, écoute ça si tu peux 🎶</p>
+    <div id="ytBox">
+      <div class="sub">Avant de répondre, écoute ça si tu peux 🎶</div>
 
-        <iframe id="ytFrame"
-          width="360"
-          height="215"
-          src=""
-          title="Die For You"
-          frameborder="0"
-          allow="autoplay; encrypted-media; picture-in-picture"
-          allowfullscreen>
-        </iframe>
+      <iframe id="ytFrame"
+        src=""
+        title="Die For You"
+        frameborder="0"
+        allow="autoplay; encrypted-media; picture-in-picture"
+        allowfullscreen>
+      </iframe>
 
-        <div style="margin-top:10px;">
-          <button onclick="unmuteYT()">Activer le son</button>
-        </div>
+      <div style="margin-top:10px;">
+        <button class="smallBtn" onclick="unmuteYT()">Activer le son</button>
       </div>
+    </div>
 
-      <br><br>
+    <div id="app">
+      <h3>Veux tu être ma Valentine 💖</h3>
+      <button class="smallBtn smallBtnPink" onclick="start()">Oui</button>
+      <button class="smallBtn" id="noBtn" onmouseover="moveNo()">Non</button>
+    </div>
 
-      <div id="app">
-        <h3>Veux tu être ma Valentine 💖</h3>
-        <button onclick="start()">Oui</button>
-        <button id="noBtn" onmouseover="moveNo()">Non</button>
-      </div>
+    <div id="result"></div>
 
-      <div id="result"></div>
-
-    </font>
-  </center>
+  </div>
 
 <script>
 let step = 0
 let chosenDay = ""
-let chosenEvening = ""
 let chosenFood = ""
 
 function moveNo() {
   const btn = document.getElementById("noBtn")
-  const x = Math.random() * (window.innerWidth - 120)
-  const y = Math.random() * (window.innerHeight - 60)
+  const x = Math.random() * (window.innerWidth - 140)
+  const y = Math.random() * (window.innerHeight - 70)
   btn.style.position = "absolute"
   btn.style.left = x + "px"
   btn.style.top = y + "px"
@@ -64,7 +139,7 @@ function start() {
 
   box.style.display = "block"
 
-  // Die For You – embed autorisé
+  // ton ID
   frame.src = "https://www.youtube.com/embed/YQ-qToZUybM?autoplay=1&mute=1"
 
   step = 1
@@ -82,15 +157,9 @@ function pickDay(v) {
   render()
 }
 
-function pickEvening(v) {
-  chosenEvening = v
-  step = 3
-  render()
-}
-
 function pickFood(v) {
   chosenFood = v
-  step = 4
+  step = 3
   render()
 }
 
@@ -101,41 +170,53 @@ function render() {
   if (step === 1) {
     app.innerHTML = ""
     result.innerHTML =
-      "<h3>Le 14 février, tu préfères la journée</h3>" +
-      "<button onclick=\"pickDay('Parc')\">Parc</button> " +
-      "<button onclick=\"pickDay('Cinéma')\">Cinéma</button> " +
-      "<button onclick=\"pickDay('Musée')\">Musée</button> " +
-      "<button onclick=\"pickDay('Outer Banks Netflix')\">Netflix</button>"
+      "<h3>Le 14 février, tu as envie de quoi la journée 💖</h3>" +
+      "<div class='cardRow'>" +
+
+      "<button class='cardBtn' onclick=\"pickDay('Parc')\">" +
+      "<img alt='Parc' src='https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=60'>" +
+      "<div class='cardTitle'>Parc</div></button>" +
+
+      "<button class='cardBtn' onclick=\"pickDay('Cinéma')\">" +
+      "<img alt='Cinéma' src='https://images.unsplash.com/photo-1517602302552-471fe67acf66?auto=format&fit=crop&w=800&q=60'>" +
+      "<div class='cardTitle'>Cinéma</div></button>" +
+
+      "<button class='cardBtn' onclick=\"pickDay('Musée')\">" +
+      "<img alt='Musée' src='https://images.unsplash.com/photo-1520699049698-acd2fccb8cc8?auto=format&fit=crop&w=800&q=60'>" +
+      "<div class='cardTitle'>Musée</div></button>" +
+
+      "<button class='cardBtn' onclick=\"pickDay('Outer Banks sur Netflix')\">" +
+      "<img alt='Netflix' src='https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?auto=format&fit=crop&w=800&q=60'>" +
+      "<div class='cardTitle'>Outer Banks</div></button>" +
+
+      "</div>"
   }
 
   if (step === 2) {
     result.innerHTML =
-      "<h3>Et le soir</h3>" +
-      "<button onclick=\"pickEvening('Nager')\">Nager</button> " +
-      "<button onclick=\"pickEvening('Sortir')\">Sortir</button> " +
-      "<button onclick=\"pickEvening('Soirée cosy')\">Cosy</button>"
+      "<h3>Et le soir, petit resto alors 💘</h3>" +
+      "<div class='sub'>Tu préfères manger quoi</div>" +
+      "<div class='cardRow'>" +
+
+      "<button class='cardBtn' onclick=\"pickFood('Frites')\">" +
+      "<img alt='Frites' src='https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=800&q=60'>" +
+      "<div class='cardTitle'>Frites</div></button>" +
+
+      "<button class='cardBtn' onclick=\"pickFood('Pâtes')\">" +
+      "<img alt='Pâtes' src='https://images.unsplash.com/photo-1523986371872-9d3ba2e2f642?auto=format&fit=crop&w=800&q=60'>" +
+      "<div class='cardTitle'>Pâtes</div></button>" +
+
+      "</div>"
   }
 
   if (step === 3) {
-    if (chosenEvening === "Nager") {
-      result.innerHTML =
-        "<h3>Après on mange quoi</h3>" +
-        "<button onclick=\"pickFood('Frites')\">Frites</button> " +
-        "<button onclick=\"pickFood('Pâtes')\">Pâtes</button>"
-    } else {
-      chosenFood = "Surprise"
-      step = 4
-      render()
-    }
-  }
-
-  if (step === 4) {
     result.innerHTML =
+      "<div class='finalBox'>" +
       "<h2>Parfait 💘</h2>" +
       "<p>Journée " + chosenDay + "</p>" +
-      "<p>Soir " + chosenEvening + "</p>" +
-      "<p>Manger " + chosenFood + "</p>" +
-      "<p>Je t’aime ❤️</p>"
+      "<p>Le soir resto et " + chosenFood + "</p>" +
+      "<p>Je t’aime ❤️</p>" +
+      "</div>"
   }
 }
 </script>

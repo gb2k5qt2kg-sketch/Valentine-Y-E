@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>14 février 💖</title>
+</head>
+
+<body bgcolor="#ffe6ee">
+  <center>
+    <br>
+    <font face="Arial">
+
+      <h2>Emma, j’ai une question pour toi 💘</h2>
+
+      <p>Petite ambiance musicale</p>
+      <iframe
+        src="https://open.spotify.com/embed/track/1WbhIxknk8b0SpDqTb1ZrF"
+        width="320"
+        height="152"
+        frameborder="0"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy">
+      </iframe>
+
+      <br><br>
+
+      <div id="app">
+        <h3>Veux tu être ma Valentine 💖</h3>
+        <button onclick="start()">Oui</button>
+        <button id="noBtn" onmouseover="moveNo()">Non</button>
+      </div>
+
+      <div id="result"></div>
+
+    </font>
+  </center>
+
+<script>
+let step = 0
+let chosenDay = ""
+let chosenEvening = ""
+let chosenFood = ""
+
+function moveNo() {
+  const btn = document.getElementById("noBtn")
+  const x = Math.random() * (window.innerWidth - 120)
+  const y = Math.random() * (window.innerHeight - 60)
+  btn.style.position = "absolute"
+  btn.style.left = x + "px"
+  btn.style.top = y + "px"
+}
+
+function start() {
+  step = 1
+  render()
+}
+
+function pickDay(v) {
+  chosenDay = v
+  step = 2
+  render()
+}
+
+function pickEvening(v) {
+  chosenEvening = v
+  step = 3
+  render()
+}
+
+function pickFood(v) {
+  chosenFood = v
+  step = 4
+  render()
+}
+
+function render() {
+  const app = document.getElementById("app")
+  const result = document.getElementById("result")
+
+  if (step === 1) {
+    app.innerHTML = ""
+    result.innerHTML =
+      "<h3>Le 14 février, tu préfères la journée</h3>" +
+      "<button onclick=\"pickDay('Parc')\">Parc</button> " +
+      "<button onclick=\"pickDay('Cinéma')\">Cinéma</button> " +
+      "<button onclick=\"pickDay('Musée')\">Musée</button> " +
+      "<button onclick=\"pickDay('Outer Banks Netflix')\">Netflix</button>"
+  }
+
+  if (step === 2) {
+    result.innerHTML =
+      "<h3>Et le soir</h3>" +
+      "<button onclick=\"pickEvening('Nager')\">Nager</button> " +
+      "<button onclick=\"pickEvening('Sortir')\">Sortir</button> " +
+      "<button onclick=\"pickEvening('Soirée cosy')\">Cosy</button>"
+  }
+
+  if (step === 3) {
+    if (chosenEvening === "Nager") {
+      result.innerHTML =
+        "<h3>Après on mange quoi</h3>" +
+        "<button onclick=\"pickFood('Frites')\">Frites</button> " +
+        "<button onclick=\"pickFood('Pâtes')\">Pâtes</button>"
+    } else {
+      chosenFood = "Surprise"
+      step = 4
+      render()
+    }
+  }
+
+  if (step === 4) {
+    result.innerHTML =
+      "<h2>Parfait 💘</h2>" +
+      "<p>Journée " + chosenDay + "</p>" +
+      "<p>Soir " + chosenEvening + "</p>" +
+      "<p>Manger " + chosenFood + "</p>" +
+      "<p>Je t’aime ❤️</p>"
+  }
+}
+</script>
+
+</body>
+</html>

@@ -4,120 +4,119 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>14 février 💖</title>
+
   <style>
     body {
       background: #ffe6ee;
       font-family: Arial, sans-serif;
       margin: 0;
-      padding: 0;
     }
     .wrap {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 28px 16px 60px 16px;
+      max-width: 900px;
+      margin: auto;
+      padding: 30px 16px 60px;
       text-align: center;
     }
-    h2 { margin: 18px 0 10px 0; }
-    h3 { margin: 18px 0 12px 0; font-weight: 700; }
-    .sub { margin: 6px 0 16px 0; opacity: 0.85; }
+    h2 { margin-bottom: 8px; }
+    h3 { margin: 22px 0 12px; }
+    .sub { opacity: 0.85; margin-bottom: 16px; }
+
     .cardRow {
       display: flex;
-      flex-wrap: wrap;
       gap: 14px;
+      flex-wrap: wrap;
       justify-content: center;
       margin-top: 10px;
     }
+
     .cardBtn {
       width: 180px;
-      border: 0;
-      border-radius: 18px;
       background: white;
+      border: none;
+      border-radius: 18px;
       padding: 10px;
       cursor: pointer;
       box-shadow: 0 8px 18px rgba(0,0,0,0.08);
-      transition: transform 0.08s ease;
+      transition: transform .1s;
     }
     .cardBtn:hover { transform: translateY(-2px); }
+
     .cardBtn img {
       width: 100%;
       height: 120px;
       object-fit: cover;
       border-radius: 14px;
-      display: block;
     }
+
     .cardTitle {
-      margin-top: 10px;
-      font-weight: 700;
+      margin-top: 8px;
+      font-weight: bold;
     }
+
     .smallBtn {
-      border: 0;
+      padding: 10px 16px;
       border-radius: 999px;
-      padding: 10px 14px;
+      border: none;
       cursor: pointer;
-      background: #ffffff;
+      background: white;
       box-shadow: 0 6px 14px rgba(0,0,0,0.08);
     }
-    .smallBtnPink {
+
+    .pink {
       background: #ff3f86;
       color: white;
     }
-    #noBtn {
-      position: relative;
-      margin-left: 10px;
-    }
+
     #ytBox {
       display: none;
-      margin: 18px auto 10px auto;
+      margin: 20px auto;
       max-width: 560px;
     }
+
     iframe {
       width: 100%;
-      max-width: 560px;
       height: 315px;
       border-radius: 16px;
-      background: #000;
+      background: black;
     }
+
     .finalBox {
-      background: rgba(255,255,255,0.85);
-      border-radius: 18px;
-      padding: 18px 14px;
+      background: rgba(255,255,255,0.9);
+      border-radius: 20px;
+      padding: 20px;
       display: inline-block;
       box-shadow: 0 8px 18px rgba(0,0,0,0.08);
-      margin-top: 12px;
+      margin-top: 16px;
     }
   </style>
 </head>
 
 <body>
-  <div class="wrap">
+<div class="wrap">
 
-    <h2>Emma, j’ai une question pour toi 💘</h2>
+  <h2>Emma, j’ai une question pour toi 💘</h2>
 
-    <div id="ytBox">
-      <div class="sub">Avant de répondre, écoute ça si tu peux 🎶</div>
-
-      <iframe id="ytFrame"
-        src=""
-        title="Die For You"
-        frameborder="0"
-        allow="autoplay; encrypted-media; picture-in-picture"
-        allowfullscreen>
-      </iframe>
-
-      <div style="margin-top:10px;">
-        <button class="smallBtn" onclick="unmuteYT()">Activer le son</button>
-      </div>
+  <div id="ytBox">
+    <div class="sub">Avant de répondre, écoute ça si tu peux 🎶</div>
+    <iframe id="ytFrame"
+      src=""
+      allow="autoplay; encrypted-media; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+    <div style="margin-top:10px">
+      <button class="smallBtn" onclick="unmuteYT()">Activer le son</button>
     </div>
-
-    <div id="app">
-      <h3>Veux tu être ma Valentine 💖</h3>
-      <button class="smallBtn smallBtnPink" onclick="start()">Oui</button>
-      <button class="smallBtn" id="noBtn" onmouseover="moveNo()">Non</button>
-    </div>
-
-    <div id="result"></div>
-
   </div>
+
+  <div id="app">
+    <h3>Veux-tu être ma Valentine 💖</h3>
+    <button class="smallBtn pink" onclick="start()">Oui</button>
+    <button class="smallBtn" id="noBtn" onmouseover="moveNo()">Non</button>
+  </div>
+
+  <div id="result"></div>
+
+</div>
 
 <script>
 let step = 0
@@ -126,29 +125,22 @@ let chosenFood = ""
 
 function moveNo() {
   const btn = document.getElementById("noBtn")
-  const x = Math.random() * (window.innerWidth - 140)
-  const y = Math.random() * (window.innerHeight - 70)
   btn.style.position = "absolute"
-  btn.style.left = x + "px"
-  btn.style.top = y + "px"
+  btn.style.left = Math.random() * (window.innerWidth - 140) + "px"
+  btn.style.top = Math.random() * (window.innerHeight - 70) + "px"
 }
 
 function start() {
-  const box = document.getElementById("ytBox")
-  const frame = document.getElementById("ytFrame")
-
-  box.style.display = "block"
-
-  // ton ID
-  frame.src = "https://www.youtube.com/embed/YQ-qToZUybM?autoplay=1&mute=1"
-
+  document.getElementById("ytBox").style.display = "block"
+  document.getElementById("ytFrame").src =
+    "https://www.youtube.com/embed/YQ-qToZUybM?autoplay=1&mute=1"
   step = 1
   render()
 }
 
 function unmuteYT() {
-  const frame = document.getElementById("ytFrame")
-  frame.src = "https://www.youtube.com/embed/YQ-qToZUybM?autoplay=1"
+  document.getElementById("ytFrame").src =
+    "https://www.youtube.com/embed/YQ-qToZUybM?autoplay=1"
 }
 
 function pickDay(v) {
@@ -166,27 +158,27 @@ function pickFood(v) {
 function render() {
   const app = document.getElementById("app")
   const result = document.getElementById("result")
+  app.innerHTML = ""
 
   if (step === 1) {
-    app.innerHTML = ""
     result.innerHTML =
-      "<h3>Le 14 février, tu as envie de quoi la journée 💖</h3>" +
+      "<h3>Le 14 février, tu as envie de quoi la journée 💕</h3>" +
       "<div class='cardRow'>" +
 
       "<button class='cardBtn' onclick=\"pickDay('Parc')\">" +
-      "<img alt='Parc' src='https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=60'>" +
+      "<img src='https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=60'>" +
       "<div class='cardTitle'>Parc</div></button>" +
 
       "<button class='cardBtn' onclick=\"pickDay('Cinéma')\">" +
-      "<img alt='Cinéma' src='https://images.unsplash.com/photo-1517602302552-471fe67acf66?auto=format&fit=crop&w=800&q=60'>" +
+      "<img src='https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=800&q=60'>" +
       "<div class='cardTitle'>Cinéma</div></button>" +
 
       "<button class='cardBtn' onclick=\"pickDay('Musée')\">" +
-      "<img alt='Musée' src='https://images.unsplash.com/photo-1520699049698-acd2fccb8cc8?auto=format&fit=crop&w=800&q=60'>" +
+      "<img src='https://images.unsplash.com/photo-1505842465776-3d90f616310d?auto=format&fit=crop&w=800&q=60'>" +
       "<div class='cardTitle'>Musée</div></button>" +
 
-      "<button class='cardBtn' onclick=\"pickDay('Outer Banks sur Netflix')\">" +
-      "<img alt='Netflix' src='https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?auto=format&fit=crop&w=800&q=60'>" +
+      "<button class='cardBtn' onclick=\"pickDay('Netflix')\">" +
+      "<img src='https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&w=800&q=60'>" +
       "<div class='cardTitle'>Outer Banks</div></button>" +
 
       "</div>"
@@ -194,16 +186,15 @@ function render() {
 
   if (step === 2) {
     result.innerHTML =
-      "<h3>Et le soir, petit resto alors 💘</h3>" +
-      "<div class='sub'>Tu préfères manger quoi</div>" +
+      "<h3>Le soir, petit resto 💘</h3>" +
       "<div class='cardRow'>" +
 
       "<button class='cardBtn' onclick=\"pickFood('Frites')\">" +
-      "<img alt='Frites' src='https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=800&q=60'>" +
+      "<img src='https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=800&q=60'>" +
       "<div class='cardTitle'>Frites</div></button>" +
 
       "<button class='cardBtn' onclick=\"pickFood('Pâtes')\">" +
-      "<img alt='Pâtes' src='https://images.unsplash.com/photo-1523986371872-9d3ba2e2f642?auto=format&fit=crop&w=800&q=60'>" +
+      "<img src='https://images.unsplash.com/photo-1603133872878-684f208fb84b?auto=format&fit=crop&w=800&q=60'>" +
       "<div class='cardTitle'>Pâtes</div></button>" +
 
       "</div>"
@@ -212,7 +203,7 @@ function render() {
   if (step === 3) {
     result.innerHTML =
       "<div class='finalBox'>" +
-      "<h2>Parfait 💘</h2>" +
+      "<h2>Parfait 💖</h2>" +
       "<p>Journée " + chosenDay + "</p>" +
       "<p>Le soir resto et " + chosenFood + "</p>" +
       "<p>Je t’aime ❤️</p>" +

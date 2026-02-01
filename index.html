@@ -4,170 +4,142 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>14 février 💖</title>
-
-  <style>
-    body { background:#ffe6ee; font-family:Arial, sans-serif; margin:0; padding:0 }
-    .wrap { max-width:980px; margin:0 auto; padding:28px 16px 50px }
-    h2 { margin:10px 0 8px }
-    h3 { margin:14px 0 10px }
-    .sub { opacity:.85; margin-top:6px }
-    .btn { padding:10px 18px; border:0; border-radius:999px; background:#ffffff; cursor:pointer; font-weight:700 }
-    .btn.yes { background:#ff4f8b; color:#fff }
-    .btn.ghost { background:#f2f2f2 }
-    .row { margin-top:14px }
-    .ytBox { display:none; margin:18px auto 0; max-width:720px }
-    .ytWrap { width:100%; aspect-ratio:16/9; border-radius:18px; overflow:hidden; background:#000 }
-    .ytWrap iframe { width:100%; height:100%; border:0 }
-    .grid3 { display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; margin-top:14px }
-    .card { background:#fff; border:0; border-radius:18px; overflow:hidden; cursor:pointer; box-shadow:0 10px 30px rgba(0,0,0,.08) }
-    .thumb { width:100%; height:150px; object-fit:cover; display:block }
-    .label { padding:10px 12px; font-weight:800; color:#2b6cb0 }
-    #noBtn { position:relative }
-    #result { margin-top:18px }
-    @media (max-width:860px) { .grid3 { grid-template-columns:repeat(1, 1fr) } }
-  </style>
 </head>
 
-<body>
-  <div class="wrap" align="center">
+<body bgcolor="#ffe6ee">
+  <center>
+    <br>
+    <font face="Arial">
 
-    <h2>Emma, j’ai une question pour toi 💘</h2>
+      <h2>Emma, j’ai une question pour toi 💘</h2>
+      <p>Si ça reste en muet touche Activer le son</p>
 
-    <div id="ytBox" class="ytBox">
-      <div class="sub">Si ça reste en muet, touche Activer le son</div>
-
-      <div class="ytWrap">
-        <iframe
-          id="ytFrame"
-          src=""
-          title="Die For You"
-          allow="autoplay; encrypted-media; picture-in-picture"
-          allowfullscreen
-        ></iframe>
+      <div id="ytBox" hidden>
+        <iframe id="ytFrame" width="360" height="215" src="" title="Die For You" frameborder="0" allow="autoplay" allowfullscreen></iframe>
+        <br>
+        <button id="soundBtn" onclick="enableSound()">Activer le son</button>
+        <button id="openBtn" onclick="openYouTube()">Ouvrir sur YouTube</button>
       </div>
 
-      <div class="row">
-        <button class="btn" onclick="unmute()">Activer le son</button>
-        <a id="ytLink" href="https://www.youtube.com/watch?v=YQ-qToZUybM" target="_blank" rel="noopener">
-          <button class="btn ghost" type="button">Ouvrir sur YouTube</button>
-        </a>
+      <br><br>
+
+      <div id="app">
+        <h3>Veux tu être ma Valentine 💖</h3>
+        <button onclick="start()">Oui</button>
+        <button id="noBtn" onmouseover="moveNo()">Non</button>
       </div>
-    </div>
 
-    <div class="row" id="app">
-      <h3>Veux tu être ma Valentine 💖</h3>
-      <button class="btn yes" onclick="start()">Oui</button>
-      <button class="btn ghost" id="noBtn" onmouseover="moveNo()">Non</button>
-    </div>
+      <div id="result"></div>
 
-    <div id="result"></div>
-
-  </div>
+    </font>
+  </center>
 
 <script>
-  let step = 0
-  let chosenDay = ""
-  let chosenFood = ""
+function ch(n){ return String['fromCharCode'](n) }
 
-  const ytId = "YQ-qToZUybM"
+var dot = ch(46)
+var colon = ch(58)
+var slash = ch(47)
 
-  function ytSrc(mute) {
-    return "https://www.youtube.com/embed/" + ytId + "?autoplay=1&mute=" + (mute ? "1" : "0") + "&playsinline=1&rel=0"
+var proto = 'https' + colon + slash + slash
+var yHost = 'www' + dot + 'youtube' + dot + 'com'
+var yWatch = proto + yHost + slash + 'watch' + '?v=YQ-qToZUybM'
+var yEmbedMuted = proto + yHost + slash + 'embed' + slash + 'YQ-qToZUybM' + '?autoplay=1&mute=1'
+var yEmbedSound = proto + yHost + slash + 'embed' + slash + 'YQ-qToZUybM' + '?autoplay=1&mute=0'
+
+var step = 0
+var chosenDay = ''
+var chosenFood = ''
+
+var imgParc = dot + slash + 'IMG_2031' + dot + 'webp'
+var imgMusee = dot + slash + 'IMG_2032' + dot + 'webp'
+var imgNetflix = dot + slash + 'IMG_2030' + dot + 'webp'
+var imgPates = dot + slash + 'IMG_2033' + dot + 'jpeg'
+var imgFrites = dot + slash + 'IMG_2034' + dot + 'jpeg'
+
+function byId(id){ return document['getElementById'](id) }
+
+function moveNo(){
+  var btn = byId('noBtn')
+  var x = Math['random']() * (window['innerWidth'] - 140)
+  var y = Math['random']() * (window['innerHeight'] - 80)
+  btn['style']['position'] = 'absolute'
+  btn['style']['left'] = x + 'px'
+  btn['style']['top'] = y + 'px'
+}
+
+function start(){
+  step = 1
+  showMusic()
+  render()
+}
+
+function showMusic(){
+  var box = byId('ytBox')
+  box['hidden'] = false
+  byId('ytFrame')['src'] = yEmbedMuted
+}
+
+function enableSound(){
+  byId('ytFrame')['src'] = yEmbedSound
+}
+
+function openYouTube(){
+  window['open'](yWatch, '_blank')
+}
+
+function pickDay(v){
+  chosenDay = v
+  step = 2
+  render()
+}
+
+function pickFood(v){
+  chosenFood = v
+  step = 3
+  render()
+}
+
+function cardButton(label, imgSrc, onClick){
+  return ''
+  + '<button onclick="' + onClick + '">'
+  + '<img src="' + imgSrc + '" width="280" height="170" alt="' + label + '">'
+  + '<br>'
+  + label
+  + '</button>'
+}
+
+function render(){
+  var app = byId('app')
+  var result = byId('result')
+
+  if(step === 1){
+    app['innerHTML'] = ''
+    result['innerHTML'] = ''
+    + '<h3>Le 14 février, tu as envie de quoi la journée 💞</h3>'
+    + cardButton('Parc', imgParc, "pickDay('Parc')")
+    + '<br><br>'
+    + cardButton('Musée', imgMusee, "pickDay('Musée')")
+    + '<br><br>'
+    + cardButton('Netflix Outer Banks', imgNetflix, "pickDay('Netflix Outer Banks')")
   }
 
-  function moveNo() {
-    const btn = document.getElementById("noBtn")
-    const x = Math.random() * (window.innerWidth - 140)
-    const y = Math.random() * (window.innerHeight - 80)
-    btn.style.position = "absolute"
-    btn.style.left = x + "px"
-    btn.style.top = y + "px"
+  if(step === 2){
+    result['innerHTML'] = ''
+    + '<h3>Et le soir, tu préfères quoi au resto 💞</h3>'
+    + cardButton('Pâtes', imgPates, "pickFood('Pâtes')")
+    + '<br><br>'
+    + cardButton('Frites', imgFrites, "pickFood('Frites')")
   }
 
-  function start() {
-    const ytBox = document.getElementById("ytBox")
-    const ytFrame = document.getElementById("ytFrame")
-
-    ytBox.style.display = "block"
-    ytFrame.src = ytSrc(true)
-
-    step = 1
-    render()
+  if(step === 3){
+    result['innerHTML'] = ''
+    + '<h2>Parfait 💘</h2>'
+    + '<p>Journée ' + chosenDay + '</p>'
+    + '<p>Au resto ' + chosenFood + '</p>'
+    + '<p>Je t’aime ❤️</p>'
   }
-
-  function unmute() {
-    const ytFrame = document.getElementById("ytFrame")
-    ytFrame.src = ytSrc(false)
-  }
-
-  function pickDay(v) {
-    chosenDay = v
-    step = 2
-    render()
-  }
-
-  function pickFood(v) {
-    chosenFood = v
-    step = 3
-    render()
-  }
-
-  function render() {
-    const app = document.getElementById("app")
-    const result = document.getElementById("result")
-
-    if (step === 1) {
-      app.innerHTML = ""
-      result.innerHTML =
-        "<h3>Le 14 février, tu as envie de quoi la journée 💞</h3>" +
-        "<div class='grid3'>" +
-
-          "<button class='card' onclick=\"pickDay('Parc')\">" +
-            "<img class='thumb' src='IMG_2029.png' alt='Parc'>" +
-            "<div class='label'>Parc</div>" +
-          "</button>" +
-
-          "<button class='card' onclick=\"pickDay('Musée')\">" +
-            "<img class='thumb' src='IMG_2031.webp' alt='Musée'>" +
-            "<div class='label'>Musée</div>" +
-          "</button>" +
-
-          "<button class='card' onclick=\"pickDay('Netflix Outer Banks')\">" +
-            "<img class='thumb' src='IMG_2032.webp' alt='Netflix Outer Banks'>" +
-            "<div class='label'>Netflix Outer Banks</div>" +
-          "</button>" +
-
-        "</div>"
-      return
-    }
-
-    if (step === 2) {
-      result.innerHTML =
-        "<h3>Et le soir, tu préfères quoi au resto 💞</h3>" +
-        "<div class='grid3' style='grid-template-columns:repeat(2, 1fr)'>" +
-
-          "<button class='card' onclick=\"pickFood('Frites')\">" +
-            "<img class='thumb' src='IMG_2033.jpeg' alt='Frites'>" +
-            "<div class='label'>Frites</div>" +
-          "</button>" +
-
-          "<button class='card' onclick=\"pickFood('Pâtes')\">" +
-            "<img class='thumb' src='IMG_2034.jpeg' alt='Pâtes'>" +
-            "<div class='label'>Pâtes</div>" +
-          "</button>" +
-
-        "</div>"
-      return
-    }
-
-    if (step === 3) {
-      result.innerHTML =
-        "<h2>Parfait 💘</h2>" +
-        "<p>Journée " + chosenDay + "</p>" +
-        "<p>Resto " + chosenFood + "</p>" +
-        "<p>Je t’aime ❤️</p>"
-    }
-  }
+}
 </script>
 
 </body>

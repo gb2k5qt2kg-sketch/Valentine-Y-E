@@ -64,18 +64,16 @@ function start() {
 
   box.style.display = "block"
 
-  // Die For You official audio ID
-  // autoplay, mute pour maximiser le démarrage automatique
-  frame.src = "https://www.youtube.com/embed/Qx7g3wE0b5U?autoplay=1&mute=1"
+  // Die For You – embed autorisé
+  frame.src = "https://www.youtube.com/embed/YQ-qToZUybM?autoplay=1&mute=1"
 
   step = 1
   render()
 }
 
-// Si iPhone bloque le son, ce bouton recharge la vidéo avec son
 function unmuteYT() {
   const frame = document.getElementById("ytFrame")
-  frame.src = "https://www.youtube.com/embed/Qx7g3wE0b5U?autoplay=1"
+  frame.src = "https://www.youtube.com/embed/YQ-qToZUybM?autoplay=1"
 }
 
 function pickDay(v) {

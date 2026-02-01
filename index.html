@@ -18,13 +18,13 @@
     .ytBox { display:none; margin:18px auto 0; max-width:720px }
     .ytWrap { width:100%; aspect-ratio:16/9; border-radius:18px; overflow:hidden; background:#000 }
     .ytWrap iframe { width:100%; height:100%; border:0 }
-    .grid { display:grid; grid-template-columns:repeat(4, 1fr); gap:14px; margin-top:14px }
+    .grid3 { display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; margin-top:14px }
     .card { background:#fff; border:0; border-radius:18px; overflow:hidden; cursor:pointer; box-shadow:0 10px 30px rgba(0,0,0,.08) }
-    .thumb { width:100%; height:140px; object-fit:cover; display:block }
+    .thumb { width:100%; height:150px; object-fit:cover; display:block }
     .label { padding:10px 12px; font-weight:800; color:#2b6cb0 }
     #noBtn { position:relative }
     #result { margin-top:18px }
-    @media (max-width:860px) { .grid { grid-template-columns:repeat(2, 1fr) } .thumb { height:150px } }
+    @media (max-width:860px) { .grid3 { grid-template-columns:repeat(1, 1fr) } }
   </style>
 </head>
 
@@ -120,15 +120,11 @@
       app.innerHTML = ""
       result.innerHTML =
         "<h3>Le 14 février, tu as envie de quoi la journée 💞</h3>" +
-        "<div class='grid'>" +
+        "<div class='grid3'>" +
+
           "<button class='card' onclick=\"pickDay('Parc')\">" +
             "<img class='thumb' src='IMG_2029.png' alt='Parc'>" +
             "<div class='label'>Parc</div>" +
-          "</button>" +
-
-          "<button class='card' onclick=\"pickDay('Cinéma')\">" +
-            "<img class='thumb' src='IMG_2030.webp' alt='Cinéma'>" +
-            "<div class='label'>Cinéma</div>" +
           "</button>" +
 
           "<button class='card' onclick=\"pickDay('Musée')\">" +
@@ -136,10 +132,11 @@
             "<div class='label'>Musée</div>" +
           "</button>" +
 
-          "<button class='card' onclick=\"pickDay('Outer Banks')\">" +
-            "<img class='thumb' src='IMG_2032.webp' alt='Outer Banks'>" +
-            "<div class='label'>Outer Banks</div>" +
+          "<button class='card' onclick=\"pickDay('Netflix Outer Banks')\">" +
+            "<img class='thumb' src='IMG_2032.webp' alt='Netflix Outer Banks'>" +
+            "<div class='label'>Netflix Outer Banks</div>" +
           "</button>" +
+
         "</div>"
       return
     }
@@ -147,7 +144,8 @@
     if (step === 2) {
       result.innerHTML =
         "<h3>Et le soir, tu préfères quoi au resto 💞</h3>" +
-        "<div class='grid' style='grid-template-columns:repeat(2, 1fr)'>" +
+        "<div class='grid3' style='grid-template-columns:repeat(2, 1fr)'>" +
+
           "<button class='card' onclick=\"pickFood('Frites')\">" +
             "<img class='thumb' src='IMG_2033.jpeg' alt='Frites'>" +
             "<div class='label'>Frites</div>" +
@@ -157,6 +155,7 @@
             "<img class='thumb' src='IMG_2034.jpeg' alt='Pâtes'>" +
             "<div class='label'>Pâtes</div>" +
           "</button>" +
+
         "</div>"
       return
     }
